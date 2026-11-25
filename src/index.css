@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Veyon Interiors - warm, light workspace */
+
+@layer base {
+  :root {
+    --background: 42 33% 97%;
+    --foreground: 220 20% 18%;
+
+    /* Card surfaces - slightly elevated dark */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 18%;
+
+    /* Popover - similar to card */
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 18%;
+
+    --primary: 158 35% 29%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Muted dark surface */
+    --secondary: 42 25% 93%;
+    --secondary-foreground: 220 20% 24%;
+
+    /* Muted elements */
+    --muted: 42 20% 94%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent - Warm amber glow */
+    --accent: 34 70% 92%;
+    --accent-foreground: 28 52% 28%;
+
+    /* Destructive - Deep red */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 40 15% 95%;
+
+    /* Border & Input - Subtle dark borders */
+    --border: 220 15% 88%;
+    --input: 220 15% 84%;
+    --ring: 158 35% 29%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 30%;
+    --sidebar-primary: 158 35% 29%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 158 24% 94%;
+    --sidebar-accent-foreground: 158 35% 24%;
+    --sidebar-border: 220 15% 91%;
+    --sidebar-ring: 158 35% 29%;
+
+    /* Status colors */
+    --status-sent: 215 70% 45%;
+    --status-partial: 35 82% 42%;
+    --status-completed: 150 48% 36%;
+    --status-overdue: 0 68% 48%;
+    --status-draft: 220 10% 50%;
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(158 35% 29%), hsl(36 58% 52%));
+    --gradient-dark: linear-gradient(180deg, hsl(42 33% 97%), hsl(42 30% 94%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(42 30% 98%));
+
+    /* Shadows */
+    --shadow-glow: 0 10px 30px -16px hsl(158 35% 29% / 0.35);
+    --shadow-card: 0 10px 28px -18px hsl(220 20% 18% / 0.28);
+  }
+
+  .dark {
+    /* Already dark theme by default */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: hsl(var(--background));
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Glass morphism card effect */
+  .glass-card {
+    @apply bg-card border border-border;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold glow effect */
+  .glow-gold {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Status badge styles */
+  .status-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-draft {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .status-sent {
+    background: hsl(var(--status-sent) / 0.15);
+    color: hsl(var(--status-sent));
+  }
+
+  .status-partial {
+    background: hsl(var(--status-partial) / 0.15);
+    color: hsl(var(--status-partial));
+  }
+
+  .status-completed {
+    background: hsl(var(--status-completed) / 0.15);
+    color: hsl(var(--status-completed));
+  }
+
+  .status-overdue {
+    background: hsl(var(--status-overdue) / 0.15);
+    color: hsl(var(--status-overdue));
+  }
+
+  /* Animated gradient border */
+  .border-gradient {
+    position: relative;
+    background: var(--gradient-card);
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--gradient-gold);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  .border-gradient:hover::before {
+    opacity: 1;
+  }
+
+  /* Subtle hover animation */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 14px 32px -18px hsl(220 20% 18% / 0.28);
+  }
+
+  /* Input focus glow */
+  .input-glow:focus-within {
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+  }
+
+  /* Table row hover */
+  .table-row-hover {
+    @apply transition-colors duration-200;
+  }
+
+  .table-row-hover:hover {
+    background: hsl(var(--primary) / 0.045);
+  }
+
+  /* Metric card animation */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px -5px hsl(var(--primary) / 0.5);
+    }
+  }
+
+  .metric-card-active {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  /* Fade in animation */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+
+  /* Stagger children */
+  .stagger-children > * {
+    opacity: 0;
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  #invoice-page-1 {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: auto;
+    background: white;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
